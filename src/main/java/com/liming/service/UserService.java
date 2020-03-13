@@ -16,4 +16,6 @@ public interface UserService {
      * @return
      */
     User getUserByAccount(String account);
+
+    Long saveUser(User user);
 }
