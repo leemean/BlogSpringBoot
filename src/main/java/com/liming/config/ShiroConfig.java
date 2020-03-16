@@ -1,6 +1,8 @@
 package com.liming.config;
 
+import com.liming.common.cache.RedisManager;
 import com.liming.oauth.OAuthRealm;
+import com.liming.oauth.OAuthSessionDAO;
 import com.liming.oauth.OAuthSessionManager;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.mgt.SecurityManager;
@@ -28,7 +30,7 @@ public class ShiroConfig {
      */
     @Bean(name = "cookieRememberMeManager")
     public CookieRememberMeManager rememberMeManager() {
-        System.out.println("rememberMeManager()");
+        //System.out.println("rememberMeManager()");
         CookieRememberMeManager cookieRememberMeManager = new CookieRememberMeManager();
         cookieRememberMeManager.setCookie(rememberMeCookie());
         return cookieRememberMeManager;
@@ -48,22 +50,29 @@ public class ShiroConfig {
         return simpleCookie;
     }
 
-//    @Bean(name = "sessionManager")
-//    public SessionManager sessionManager(OAuthSessionDAO oAuthSessionDAO){
-//        OAuthSessionManager oAuthSessionManager = new OAuthSessionManager();
-//        oAuthSessionManager.setSessionDAO(oAuthSessionDAO);
-//        return oAuthSessionManager;
-//    }
+    @Bean(name = "oAuthSessionDAO")
+    public OAuthSessionDAO authSessionDAO(RedisManager redisManager) {
+        OAuthSessionDAO authSessionDAO = new OAuthSessionDAO();
+        authSessionDAO.setRedisManager(redisManager);
+        return authSessionDAO;
+    }
+
+    @Bean(name = "sessionManager")
+    public SessionManager sessionManager(OAuthSessionDAO oAuthSessionDAO){
+        OAuthSessionManager oAuthSessionManager = new OAuthSessionManager();
+        oAuthSessionManager.setSessionDAO(oAuthSessionDAO);
+        return oAuthSessionManager;
+    }
 
     @Bean(name = "securityManager")
     public SecurityManager securityManager(@Qualifier("authRealm")OAuthRealm authRealm,
-                                           @Qualifier("cookieRememberMeManager")CookieRememberMeManager cookieRememberMeManager//,
-                                           //@Qualifier("sessionManager")SessionManager sessionManager
+                                           @Qualifier("cookieRememberMeManager")CookieRememberMeManager cookieRememberMeManager,
+                                           @Qualifier("sessionManager")SessionManager sessionManager
     ){
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         //设置realm
         securityManager.setRealm(authRealm);
-//        securityManager.setSessionManager(sessionManager);
+        securityManager.setSessionManager(sessionManager);
         //设置rememberMe管理器
         securityManager.setRememberMeManager(cookieRememberMeManager);
         return securityManager;
