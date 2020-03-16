@@ -68,6 +68,7 @@ public class LoginController {
         try{
             subject.login(token);
             User currentUser = userService.getUserByAccount(account);
+            //System.out.println(subject.hasRole(Base.ROLE_ADMIN));
             subject.getSession().setAttribute(Base.CURRENT_USER,currentUser);
             r.setResultCode(ResultCode.SUCCESS);
             r.simple().put(OAuthSessionManager.OAUTH_TOKEN,subject.getSession().getId());
