@@ -1,0 +1,20 @@
+/register
+{
+	"account": "001",
+	"password": "123456",
+	"avatar": "/user/admin.png",
+	"email": "leemeany@qq.com",
+	"nickname": "liming22",
+	"mobile": "13711111111"
+}
+
+/tags/create
+{
+	"tagName" : "散文2"
+}
+
+/tags/update
+{
+	"id": 5,
+	"tagName" : "散文333"
+}

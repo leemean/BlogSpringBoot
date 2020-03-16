@@ -21,37 +21,68 @@ public class Article extends BaseEntity<Long> {
 
     private static final long serialVersionUID = -4470366380115322213L;
 
+    /**
+     * 标题
+     */
     @NotBlank
     @Column(name = "title",length = 64)
     private String title;
 
+    @NotBlank
+    @Column(name = "summary", length = 255)
+    private String summary;
+
+    /**
+     * 作者
+     */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id")
     private User author;
 
+    /**
+     * 文章主体
+     */
     @OneToOne(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY,orphanRemoval = true)
     @JoinColumn(name = "body_id")
     private ArticleBody body;
 
+    /**
+     * 分类 目录
+     */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
 
+    /**
+     * 标签
+     */
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "article_tag",
+    @JoinTable(name = "article_tag_relate",
             joinColumns = {@JoinColumn(name = "article_id")},
             inverseJoinColumns = {@JoinColumn(name = "tag_id")})
     private List<Tag> tags;
 
+    /**
+     * 评论
+     */
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "article",orphanRemoval = true)
     private List<Comment> comments;
 
+    /**
+     * 评论数
+     */
     @Column(name = "comment_counts")
     private int commentCounts;
 
+    /**
+     * 查看次数
+     */
     @Column(name = "view_counts")
     private int viewCounts;
 
+    /**
+     * 是否置顶
+     */
     private int top = Article_Common;
 
     /**
@@ -61,5 +92,4 @@ public class Article extends BaseEntity<Long> {
     @Column(name = "create_time")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createTime;
-
 }
