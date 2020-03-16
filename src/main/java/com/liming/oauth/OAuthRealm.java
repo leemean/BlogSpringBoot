@@ -25,6 +25,11 @@ public class OAuthRealm extends AuthorizingRealm {
     @Autowired
     UserService userService;
 
+//    @Override
+//    public boolean supports(AuthenticationToken token){
+//        return token instanceof AuthenticationToken;
+//    }
+
     /**
      * 鉴权
      * @param principalCollection
