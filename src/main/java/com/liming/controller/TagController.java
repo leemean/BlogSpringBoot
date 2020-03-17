@@ -17,7 +17,7 @@ public class TagController {
     private TagService tagService;
 
     @PostMapping("/create")
-    //@RequiresRoles(Base.ROLE_ADMIN)
+    @RequiresRoles(Base.ROLE_ADMIN)
     public Result saveTag(@Validated @RequestBody Tag tag){
         Integer id = tagService.saveTag(tag);
         Result r = Result.success();

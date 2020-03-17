@@ -27,58 +27,58 @@ import java.util.Map;
 @Configuration
 public class ShiroConfig {
 
-    /**
-     * 记住我管理器 cookie管理对象;
-     *
-     * @return
-     */
-    @Bean(name = "cookieRememberMeManager")
-    public CookieRememberMeManager rememberMeManager() {
-        //System.out.println("rememberMeManager()");
-        CookieRememberMeManager cookieRememberMeManager = new CookieRememberMeManager();
-        cookieRememberMeManager.setCookie(rememberMeCookie());
-        return cookieRememberMeManager;
-    }
+//    /**
+//     * 记住我管理器 cookie管理对象;
+//     *
+//     * @return
+//     */
+//    @Bean(name = "cookieRememberMeManager")
+//    public CookieRememberMeManager rememberMeManager() {
+//        //System.out.println("rememberMeManager()");
+//        CookieRememberMeManager cookieRememberMeManager = new CookieRememberMeManager();
+//        cookieRememberMeManager.setCookie(rememberMeCookie());
+//        return cookieRememberMeManager;
+//    }
 
-    /**
-     * cookie对象;
-     *
-     * @return
-     */
-    @Bean
-    public SimpleCookie rememberMeCookie() {
-        // 这个参数是cookie的名称，对应前端的checkbox 的name = rememberMe
-        SimpleCookie simpleCookie = new SimpleCookie("rememberMe");
-        // <!-- 记住我cookie生效时间30天（259200） ,单位秒;-->
-        simpleCookie.setMaxAge(259200);
-        return simpleCookie;
-    }
-
-    @Bean(name = "oAuthSessionDAO")
-    public OAuthSessionDAO authSessionDAO(RedisManager redisManager) {
-        OAuthSessionDAO authSessionDAO = new OAuthSessionDAO();
-        authSessionDAO.setRedisManager(redisManager);
-        return authSessionDAO;
-    }
-
-    @Bean(name = "sessionManager")
-    public SessionManager sessionManager(OAuthSessionDAO oAuthSessionDAO){
-        OAuthSessionManager oAuthSessionManager = new OAuthSessionManager();
-        oAuthSessionManager.setSessionDAO(oAuthSessionDAO);
-        return oAuthSessionManager;
-    }
+//    /**
+//     * cookie对象;
+//     *
+//     * @return
+//     */
+//    @Bean
+//    public SimpleCookie rememberMeCookie() {
+//        // 这个参数是cookie的名称，对应前端的checkbox 的name = rememberMe
+//        SimpleCookie simpleCookie = new SimpleCookie("rememberMe");
+//        // <!-- 记住我cookie生效时间30天（259200） ,单位秒;-->
+//        simpleCookie.setMaxAge(259200);
+//        return simpleCookie;
+//    }
+//
+//    @Bean(name = "oAuthSessionDAO")
+//    public OAuthSessionDAO authSessionDAO(RedisManager redisManager) {
+//        OAuthSessionDAO authSessionDAO = new OAuthSessionDAO();
+//        authSessionDAO.setRedisManager(redisManager);
+//        return authSessionDAO;
+//    }
+//
+//    @Bean(name = "sessionManager")
+//    public SessionManager sessionManager(OAuthSessionDAO oAuthSessionDAO){
+//        OAuthSessionManager oAuthSessionManager = new OAuthSessionManager();
+//        oAuthSessionManager.setSessionDAO(oAuthSessionDAO);
+//        return oAuthSessionManager;
+//    }
 
     @Bean(name = "securityManager")
-    public SecurityManager securityManager(@Qualifier("authRealm")OAuthRealm authRealm,
-                                           @Qualifier("cookieRememberMeManager")CookieRememberMeManager cookieRememberMeManager,
-                                           @Qualifier("sessionManager")SessionManager sessionManager
+    public SecurityManager securityManager(@Qualifier("authRealm")OAuthRealm authRealm//,
+                                           //@Qualifier("cookieRememberMeManager")CookieRememberMeManager cookieRememberMeManager,
+                                           //@Qualifier("sessionManager")SessionManager sessionManager
     ){
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         //设置realm
         securityManager.setRealm(authRealm);
-        securityManager.setSessionManager(sessionManager);
+        //securityManager.setSessionManager(sessionManager);
         //设置rememberMe管理器
-        securityManager.setRememberMeManager(cookieRememberMeManager);
+        //securityManager.setRememberMeManager(cookieRememberMeManager);
         return securityManager;
     }
 
@@ -116,8 +116,17 @@ public class ShiroConfig {
     }
 
     /**
-     * 添加注解支持
+     * shiro生命周期处理器
      * @return
+     */
+    @Bean(name = "lifecycleBeanPostProcessor")
+    public LifecycleBeanPostProcessor lifecycleBeanPostProcessor(){
+        return new LifecycleBeanPostProcessor();
+    }
+
+    /**
+     * 开启Shiro的注解(如@RequiresRoles,@RequiresPermissions),需借助SpringAOP扫描使用Shiro注解的类,并在必要时进行安全逻辑验证
+     * 配置以下两个bean(DefaultAdvisorAutoProxyCreator(可选)和AuthorizationAttributeSourceAdvisor)即可实现此功能
      */
     @Bean
     @ConditionalOnMissingBean
@@ -126,11 +135,6 @@ public class ShiroConfig {
         DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator=new DefaultAdvisorAutoProxyCreator();
         defaultAdvisorAutoProxyCreator.setProxyTargetClass(true);
         return defaultAdvisorAutoProxyCreator;
-    }
-
-    @Bean(name = "lifecycleBeanPostProcessor")
-    public LifecycleBeanPostProcessor lifecycleBeanPostProcessor(){
-        return new LifecycleBeanPostProcessor();
     }
 
     @Bean
