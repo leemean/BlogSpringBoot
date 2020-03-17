@@ -5,9 +5,9 @@ server:
 spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
-    url: jdbc:mysql:/localhost/:3306/blog?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8
+    url: jdbc:mysql://localhost:3306/blog?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8
     username: root
-    password:
+    password: 
     driver-class-name: com.mysql.cj.jdbc.Driver
     druid:
       initial-size: 5
@@ -45,5 +45,5 @@ spring:
         min-idle: 0
   mvc:
     static-path-pattern: /**
-  aop:
-    proxy-target-class: true
+#  aop:
+#    proxy-target-class: true

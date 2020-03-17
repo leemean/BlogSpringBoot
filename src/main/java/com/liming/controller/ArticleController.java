@@ -45,7 +45,6 @@ public class ArticleController {
             r.setResultCode(ResultCode.USER_NOT_EXIST);
             return r;
         }
-
         Long id = articleService.updateArticle(article);
         r.setResultCode(ResultCode.SUCCESS);
         r.simple().put("articleId",id);

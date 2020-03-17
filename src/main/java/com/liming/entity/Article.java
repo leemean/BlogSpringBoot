@@ -28,7 +28,7 @@ public class Article extends BaseEntity<Long> {
     @Column(name = "title",length = 64)
     private String title;
 
-    @NotBlank
+    //@NotBlank
     @Column(name = "summary", length = 255)
     private String summary;
 
@@ -42,22 +42,22 @@ public class Article extends BaseEntity<Long> {
     /**
      * 文章主体
      */
-    @OneToOne(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY,orphanRemoval = true)
+    @OneToOne(cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY,orphanRemoval = true)
     @JoinColumn(name = "body_id")
     private ArticleBody body;
 
     /**
      * 分类 目录
      */
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(cascade = {CascadeType.PERSIST},fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
 
     /**
      * 标签
      */
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "article_tag_relate",
+    @ManyToMany(cascade = {CascadeType.ALL},fetch = FetchType.LAZY)
+    @JoinTable(name = "article_tag",
             joinColumns = {@JoinColumn(name = "article_id")},
             inverseJoinColumns = {@JoinColumn(name = "tag_id")})
     private List<Tag> tags;

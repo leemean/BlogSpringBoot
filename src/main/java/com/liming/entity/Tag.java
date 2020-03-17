@@ -12,7 +12,7 @@ import javax.validation.constraints.NotBlank;
 @Getter
 @Setter
 @Entity
-@Table(name = "article_tag")
+@Table(name = "tag")
 public class Tag extends BaseEntity<Integer> {
     private static final long serialVersionUID = 5025313969040054182L;
 

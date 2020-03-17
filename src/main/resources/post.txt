@@ -18,3 +18,16 @@
 	"id": 5,
 	"tagName" : "散文333"
 }
+
+/articles/publish
+{
+	"title": "标题4",
+	"body": {
+				"content": "文章hjshagfbdgnrtsh4687856"
+			},
+	"category": {
+					"categoryName": "分类222",
+					"description": "分类描述1"
+				},
+	"tags": [{"tagName": "散文"}]
+}

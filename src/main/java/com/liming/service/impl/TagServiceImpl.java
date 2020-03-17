@@ -3,6 +3,7 @@ package com.liming.service.impl;
 import com.liming.entity.Tag;
 import com.liming.repository.TagRepository;
 import com.liming.service.TagService;
+import com.liming.vo.TagVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,5 +40,15 @@ public class TagServiceImpl implements TagService {
     @Override
     public void deleteTagById(Integer id) {
         tagRepository.deleteById(id);
+    }
+
+    @Override
+    public List<TagVo> findAllDetail() {
+        return tagRepository.findAllDetail();
+    }
+
+    @Override
+    public TagVo getTagDetail(Integer tagId) {
+        return tagRepository.getTagDetail(tagId);
     }
 }

@@ -60,7 +60,6 @@ public class ArticleServiceImpl implements ArticleService {
         if(null != currentUser){
             article.setAuthor(currentUser);
         }
-
         article.setCreateTime(new Date());
         article.setTop(Article.Article_Common);
         return articleRepository.save(article).getId();

@@ -27,7 +27,6 @@ public class ArticleRepositoryImpl implements ArticleWrapper {
 
     @Override
     public List<Article> listArticles(PageVo page) {
-        String aaa = "dfsdfsd";
         StringBuilder hql = new StringBuilder("from Article");
         if(null != page.getName() && !"".equals(page.getName())){
             hql.append(" order by ");
