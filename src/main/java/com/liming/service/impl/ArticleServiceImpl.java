@@ -48,13 +48,13 @@ public class ArticleServiceImpl implements ArticleService {
         if(null != article.getId()){
             return this.updateArticle(article);
         }else{
-            return this.saveArticle(article);
+            return this.createArticle(article);
         }
     }
 
     @Override
     @Transactional
-    public Long saveArticle(Article article) {
+    public Long createArticle(Article article) {
         User currentUser = UserUtils.getCurrentUser();
 
         if(null != currentUser){

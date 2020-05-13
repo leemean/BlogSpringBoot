@@ -36,21 +36,21 @@ public class Article extends BaseEntity<Long> {
      * 作者
      */
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "author_id")
+    @JoinColumn(name = "author_id",referencedColumnName = "id")
     private User author;
 
     /**
      * 文章主体
      */
-    @OneToOne(cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY,orphanRemoval = true)
-    @JoinColumn(name = "body_id")
+    @OneToOne(cascade = {CascadeType.ALL},fetch = FetchType.LAZY,orphanRemoval = true)
+    @JoinColumn(name = "body_id",referencedColumnName = "id")
     private ArticleBody body;
 
     /**
      * 分类 目录
      */
-    @ManyToOne(cascade = {CascadeType.PERSIST},fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id",referencedColumnName = "id")
     private Category category;
 
     /**

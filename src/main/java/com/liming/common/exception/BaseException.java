@@ -5,10 +5,6 @@ import lombok.Setter;
 
 /**
  * 自定义异常
- *
- * @author shimh
- * <p>
- * 2018年1月23日
  */
 public class BaseException extends RuntimeException {
 

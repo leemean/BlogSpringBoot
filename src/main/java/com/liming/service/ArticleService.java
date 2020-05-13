@@ -17,7 +17,7 @@ public interface ArticleService {
 
     Long publishArticle(Article article);
 
-    Long saveArticle(Article article);
+    Long createArticle(Article article);
 
     Long updateArticle(Article article);
 
